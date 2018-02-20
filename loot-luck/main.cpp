@@ -86,7 +86,6 @@ int main(int argc, const char * argv[]) {
     std::chrono::system_clock::time_point start, end;
     start = std::chrono::system_clock::now(); // 計測開始
     
-    std::cout << StateStr[0] << '\n';
     std::map<char, int> choose;
     choose['N'] = NEED;
     choose['G'] = GREED;
