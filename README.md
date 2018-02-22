@@ -9,19 +9,18 @@ No special reason. Just because.
 ## Usage
 ```
 $ ./loot-luck
-ロットしてください。[(N)eed/(G)reed/(P)ass]N
-Needしました。
-Pass
-[*]P1はアイテムにNeeedのダイスで94を出した。
-   P2はアイテムにNeeedのダイスで42を出した。
-   P3はアイテムにNeeedのダイスで93を出した。
-   P4はアイテムにGreedのダイスで52を出した。
-   P5はアイテムにNeeedのダイスで19を出した。
-   P6はアイテムにGreedのダイスで10を出した。
-   P7はアイテムにGreedのダイスで37を出した。
-   P8はアイテムにGreedのダイスで50を出した。
-P1はアイテムを手に入れた。
-処理計測: 120 ms
+Loot Phase [(N)eed/(G)reed/(P)ass]: G
+You roll Greed on the Halonic friar's ring.84!
+   P2 rolls Need on the Halonic friar's ring.45!
+   P3 casts rot for the Halonic friar's ring.
+   P4 rolls Need on the Halonic friar's ring.26!
+   P5 rolls Need on the Halonic friar's ring.80!
+   P6 rolls Need on the Halonic friar's ring.62!
+   P7 casts rot for the Halonic friar's ring.
+   P8 casts rot for the Halonic friar's ring.
+P5 obtain a Halonic friar's ring.
+Elapsed Time: 171 μs
+	0.000171 sec
 ```
 
 ## TODO

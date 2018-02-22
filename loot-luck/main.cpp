@@ -11,7 +11,7 @@
 #include <map>
 #include <algorithm>
 #include <random>
-#include <stdlib.h>
+#include <iomanip>  // std::setprecision
 #include <iterator> // std::distance
 #include <chrono>   // std::chrono
 #include "color.h"
@@ -39,15 +39,8 @@ void drawing_loot(int mode, const char *item, int max_party = 4);
 
 int main(int argc, const char * argv[]) {
     char mode;
-    std::cout << "ロットしてください。[(N)eed/(G)reed/(P)ass]";
+    std::cout << "Loot Phase [(N)eed/(G)reed/(P)ass]: ";
     std::cin >> mode;
-    if (mode == 'N') {
-        std::cout << "Needしました。" << '\n';
-    } else if(mode == 'G') {
-        std::cout << "Greedしました。" << '\n';
-    } else {
-        std::cout << "Passしました。" << '\n';
-    }
     /**
      * 処理計測
      * @see - http://en.cppreference.com/w/cpp/chrono
@@ -59,11 +52,12 @@ int main(int argc, const char * argv[]) {
     choose['N'] = NEED;
     choose['G'] = GREED;
     choose['P'] = PASS;
-    drawing_loot(choose[mode], "アイテム", 8);
+    drawing_loot(choose[mode], "Halonic friar's ring", 8);
     
     end = std::chrono::system_clock::now();
     double elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
-    std::cout << "処理計測: " << elapsed << " ms" << '\n';
+    std::cout << "Elapsed Time: " << elapsed << " μs" << '\n';
+    std::cout << '\t' << std::fixed << std::setprecision(6) << (elapsed/1000000) << " sec" << '\n';
     return 0;
 }
 
@@ -89,16 +83,21 @@ void drawing_loot(int mode, const char *item, int max_party) {
         pt.lot = lot;
         if (pt.state == PASS) { pt.lot = 0; }
         if (pt.pos == 0) {
-            std::cout << BOLDCYAN << "[*]";
+            std::cout << BOLDCYAN;
+            if (pt.state == PASS) {
+                std::cout << "You casts rot for the " << item << ".";
+            } else {
+                std::cout << "You roll " << StateStr[pt.state] << " on the " << item << "." << pt.lot << "!";
+            }
+            std::cout << '\n';
         } else {
             std::cout << RESET << "   ";
-        }
-        
-        std::cout << "P" << (pt.pos + 1) << "は" << item;
-        if (pt.state == PASS) {
-            std::cout << "のロットをパスした。\n";
-        } else {
-            std::cout << "に" << StateStr[pt.state] << "のダイスで" << pt.lot << "を出した。" << '\n';
+            if (pt.state == PASS) {
+                std::cout << "P" << (pt.pos + 1) << " casts rot for the " << item << ".";
+            } else {
+                std::cout << "P" << (pt.pos + 1) << " rolls " << StateStr[pt.state] << " on the " << item << "." << pt.lot << "!";
+            }
+            std::cout << '\n';
         }
     }
 
@@ -122,6 +121,12 @@ void drawing_loot(int mode, const char *item, int max_party) {
     itr = std::max_element(group.begin(), group.end(), [](party_t &p1, party_t &p2) {
         return p1.lot < p2.lot;
     });
-    std::cout << "P" << (itr->pos + 1) << "は" << item << "を手に入れた。" << '\n';
+    if (itr->pos == 0) {
+        std::cout << "You obtain a " << item << "." << '\n';
+        std::cout << "The " << item << " is added to your inventory.";
+    } else {
+        std::cout << "P" << (itr->pos + 1) << " obtain a " << item << ".";
+    }
+    std::cout << '\n';
 }
 
