@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <random>
 #include <stdlib.h>
+#include <iterator> // std::distance
 #include <chrono>   // std::chrono
 #include "color.h"
 
@@ -100,13 +101,25 @@ void drawing_loot(int mode, const char *item, int max_party) {
             std::cout << "に" << StateStr[pt.state] << "のダイスで" << pt.lot << "を出した。" << '\n';
         }
     }
+
+    // Needのみ
+    std::vector<party_t> group;
+    for (auto &a : party_list) {
+        if (a.state == NEED) {
+            group.push_back(a);
+        }
+    }
+    // Needがない場合大元のコンテナを格納
+    if (group.empty()) {
+        group.swap(party_list);
+    }
     
     /**
      * Get max element in a vector of structures in c++
      * @see - https://stackoverflow.com/questions/16772477/how-to-get-min-or-max-element-in-a-vector-of-structures-in-c-based-on-some-fi
      */
     std::vector<party_t>::iterator itr;
-    itr = std::max_element(party_list.begin(), party_list.end(), [](party_t &p1, party_t &p2) {
+    itr = std::max_element(group.begin(), group.end(), [](party_t &p1, party_t &p2) {
         return p1.lot < p2.lot;
     });
     std::cout << "P" << (itr->pos + 1) << "は" << item << "を手に入れた。" << '\n';

@@ -3,8 +3,8 @@ No special reason. Just because.
 
 ## Environment
 
-XCode 9.0
-macOS High Sierra 10.13.2
+- XCode 9.0
+- macOS High Sierra 10.13.2
 
 ## Usage
 ```
