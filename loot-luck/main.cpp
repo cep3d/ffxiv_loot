@@ -122,8 +122,10 @@ void drawing_loot(int mode, const char *item, int max_party) {
         return p1.lot < p2.lot;
     });
     if (itr->pos == 0) {
+        std::cout << BOLDGREEN;
         std::cout << "You obtain a " << item << "." << '\n';
         std::cout << "The " << item << " is added to your inventory.";
+        std::cout << RESET;
     } else {
         std::cout << "P" << (itr->pos + 1) << " obtain a " << item << ".";
     }
